@@ -1,0 +1,16 @@
+# CODEOWNERS — 파일/폴더별 책임 리뷰어 (보너스 과제 2)
+#
+# 여기에 적힌 경로가 바뀌는 PR 이 열리면 해당 사용자가 자동으로 리뷰어로 지정됩니다.
+# 형식: <경로 패턴>  <@GitHub아이디>
+#
+# ⚠️ 팀원이 모이면 아이디를 채우세요. 저장소 Collaborator 여야 동작합니다.
+
+# 문서 전반
+/docs/          @haeunyn
+
+# 저장소 설정
+/.github/       @haeunyn
+
+# 유틸 코드 (담당자가 정해지면 세분화)
+# /src/utils/text.py      @haeunyn
+# /src/utils/math.py      @팀원2
