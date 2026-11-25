@@ -11,6 +11,5 @@
 # 저장소 설정
 /.github/       @haeunyn
 
-# 유틸 코드 (담당자가 정해지면 세분화)
-# /src/utils/text.py      @haeunyn
-# /src/utils/math.py      @팀원2
+# 팀 소개 파일 (본인 파일은 본인이 책임 리뷰어)
+# /team/haeun.md          @haeunyn

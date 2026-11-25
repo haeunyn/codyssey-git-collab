@@ -26,8 +26,8 @@ feature/<이름>-<주제>
 
 | 예시 | 설명 |
 | --- | --- |
-| `feature/haeun-string-utils` | 하은이 문자열 유틸 추가 |
-| `feature/haeun-fix-truncate` | 하은이 truncate 버그 수정 |
+| `feature/haeun-intro` | 하은이 자기소개 파일 추가 |
+| `feature/haeun-update-intro` | 하은이 자기소개 내용 수정 |
 | `docs/haeun-contributing` | 문서 작업 (feature 대신 docs 접두사 허용) |
 
 - 모두 **소문자**, 단어는 **하이픈(-)** 으로 연결
@@ -50,8 +50,8 @@ feature/<이름>-<주제>
 ### ✅ 좋은 예
 
 ```
-feat: add truncate() to string utils
-fix: handle empty string in truncate()
+docs: add haeun intro to team
+docs: fix broken link in team list
 docs: add branch naming rules to CONTRIBUTING
 ```
 
