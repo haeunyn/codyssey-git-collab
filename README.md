@@ -20,7 +20,7 @@
 | 이름 | GitHub | 소개 | 담당 |
 | --- | --- | --- | --- |
 | 하은 | [@haeunyn](https://github.com/haeunyn) | _(작성 예정)_ | 저장소 세팅 · 문서 뼈대 |
-
+| 규영 | [@fromdance](https://github.com/fromdance) | [소개](team/kyuyeong.md) | 리뷰 규칙 보완 · 트러블슈팅(`git reset`) |
 > 쓰는 법과 양식: [`team/README.md`](team/README.md)
 >
 > ⚠️ **팀원 전원이 이 표의 같은 자리를 고칩니다.** 충돌이 나는 게 정상이고,
