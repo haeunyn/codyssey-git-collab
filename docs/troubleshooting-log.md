@@ -7,42 +7,89 @@
 
 | 시나리오 | 담당 | 상태 |
 | --- | --- | --- |
-| a. `git commit --amend` | 하은 | ⬜ |
-| b. `git reset --soft HEAD~1` | _(팀원)_ | ⬜ |
-| c. `git revert` | _(팀원)_ | ⬜ |
-| d. `git stash` / `stash pop` | _(팀원)_ | ⬜ |
+| a. `git commit --amend` | 하은 ([@haeunyn](https://github.com/haeunyn)) | ✅ |
+| b. `git reset --soft HEAD~1` | 규영 ([@fromdance](https://github.com/fromdance)) | ⬜ |
+| c. `git revert` | 지원 ([@geewon07](https://github.com/geewon07)) | ⬜ |
+| d. `git stash` / `stash pop` | 지원 ([@geewon07](https://github.com/geewon07)) | ⬜ |
 
 ---
 
 ## 시나리오 a — `git commit --amend` (최근 커밋 메시지 수정)
 
+> ✅ **2026-11-25 실제 수행함.** 아래는 템플릿이 아니라 실제로 돌린 기록입니다.
+
 ### 참여자
--
+- 하은 ([@haeunyn](https://github.com/haeunyn)) — 수행 및 기록
 
 ### 상황
-- 커밋 메시지를 `update` 라고 적어버렸다. 우리 팀 컨벤션 위반이라 고쳐야 한다.
-- (아직 push 하지 않은 상태)
+- PR #8(README 소개 링크 + CODEOWNERS) 작업 중, 커밋 메시지를 **`update`** 로 적어버렸다.
+- 우리 팀 컨벤션(`docs/CONTRIBUTING.md`)은 `update` 를 **"의미없는 메시지"로 금지**한다.
+  과제 명세 4-4번의 판정 기준에도 들어 있다.
+- 아직 **push 하기 전**이었다.
 
 ### 시도한 명령/절차
 
 ```bash
-git log --oneline -1          # 고칠 커밋 확인
-git commit --amend -m "feat: add truncate() to string utils"
-git log --oneline -1          # 바뀐 것 확인
+git log --oneline -1
+# d2d9b35 update                     ← 고칠 커밋
+
+git commit --amend -F -              # 편집기 대신 표준입력으로 메시지 교체
+# docs: link haeun intro in README and fill CODEOWNERS
+# ...
+
+git log --oneline -1
+# c89427b docs: link haeun intro in README and fill CODEOWNERS
 ```
 
 ### 결과
-- 커밋 해시가 **바뀐다**. amend 는 기존 커밋을 수정하는 게 아니라 **새 커밋으로 교체**하는 것이기 때문.
+
+| | 해시 | 메시지 |
+| --- | --- | --- |
+| amend 전 | `d2d9b35` | `update` |
+| amend 후 | `c89427b` | `docs: link haeun intro in README and fill CODEOWNERS` |
+
+**해시가 바뀌었다.** amend 는 기존 커밋을 고치는 게 아니라 **새 커밋으로 교체**하는 것이기 때문이다.
+변경 내용(diff)은 똑같은데 해시만 달라졌다 — 커밋 해시는 메시지·작성시각까지 포함해 계산되기 때문이다.
+
+옛 커밋은 사라진 게 아니라 **reflog 에 남아 있다.**
+
+```bash
+git reflog -3 --format='%h %gs'
+# c89427b commit (amend): docs: link haeun intro in README and fill CODEOWNERS
+# d2d9b35 commit: update
+# a5bdef9 checkout: moving from main to feature/haeun-readme-link
+```
 
 ### 왜 이 방법을 선택했는가 (Why)
 - 아직 **push 하지 않았으므로** 히스토리를 바꿔도 남에게 영향이 없다.
+- 메시지만 틀렸고 내용은 맞았다. `reset` 으로 커밋을 되돌렸다가 다시 묶을 이유가 없다.
+- `revert` 는 **내용을 되돌릴 때** 쓴다. 여기는 내용이 아니라 메시지가 문제였다.
 
 ### ⚠️ 주의할 점
-- **이미 push 한 커밋에 amend 를 쓰면 안 된다.** 해시가 달라져서 강제 푸시가 필요해지고,
+- **이미 push 한 커밋에 amend 를 쓰면 안 된다.** 해시가 달라져 강제 푸시가 필요해지고,
   다른 팀원의 로컬 히스토리와 어긋난다. (과제 제약: 팀 합의 없이 강제 푸시 금지)
-- push 한 뒤라면 `revert` 를 쓴다 (시나리오 c).
+- ★ **그렇다고 push 한 뒤에 `revert` 를 쓰면 안 된다.** `revert` 는 **변경 내용을 되돌리는**
+  명령이라, 메시지만 고치려다 **멀쩡한 변경까지 취소**된다. 두 명령은 고치는 대상이 다르다.
 
----
+  | 무엇이 잘못됐나 | push 전 | push 후 |
+  | --- | --- | --- |
+  | **커밋 메시지** | `commit --amend` | **그냥 둔다.** 다음 커밋이나 PR 본문에서 설명한다 |
+  | **변경 내용** | `reset` / `amend` | `revert` (시나리오 c) |
+
+  push 한 커밋의 메시지를 꼭 고쳐야 한다면 강제 푸시가 필요한데, 그건 팀 합의 사항이다.
+  메시지 하나 때문에 남의 히스토리를 깨뜨릴 이유는 거의 없다.
+- 잘못 amend 했을 때는 reflog 의 옛 해시로 돌아갈 수 있다 — `git reset --hard d2d9b35`.
+  단 `--hard` 는 커밋 안 한 변경을 지우므로 주의한다.
+
+### 재현하는 법
+```bash
+git switch -c tmp-amend-test
+echo test > tmp.txt && git add tmp.txt && git commit -m "update"
+git log --oneline -1          # 해시 적어두기
+git commit --amend -m "docs: add tmp note"
+git log --oneline -1          # 해시가 바뀐 것 확인
+git switch - && git branch -D tmp-amend-test
+```
 
 ## 시나리오 b — `git reset --soft HEAD~1` (로컬 커밋 취소 + 변경 유지)
 
