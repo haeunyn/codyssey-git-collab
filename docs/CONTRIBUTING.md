@@ -26,6 +26,16 @@ Python이 여러 버전 설치되어 있다면 3.10 이상의 버전을 명시�
 ```bash
 python3.12 --version
 ```
+위 명령어는 macOS/Linux 환경 기준입니다.
+
+Windows에서는 PowerShell에서 Python Launcher가 설치된 경우 아래 명령어를 사용하여 Python 버전을 확인합니다.
+
+```powershell
+py --version
+py -3.12 --version
+```
+
+Python Launcher가 없는 경우 `python --version`으로 확인할 수 있습니다.
 
 ### Git 사용자 정보 설정
 
