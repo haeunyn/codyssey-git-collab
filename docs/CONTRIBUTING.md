@@ -2,6 +2,44 @@
 
 > 이 문서는 **팀원이 분담해서** 작성·보완합니다. 규칙에 이견이 있으면 Issue 로 제안하세요.
 
+## 개발 환경
+
+| 항목 | 요구사항 |
+| --- | --- |
+| Python | 3.10 이상 |
+| Git | 설치 필수 |
+| GitHub | 계정 및 공동 저장소 접근 권한 필요 |
+| OS | macOS, Windows, Linux |
+| 편집기 | 자유 (VS Code 등) |
+
+### 개발 환경 확인
+
+프로젝트 시작 전 터미널에서 아래 명령어를 실행하여 설치 여부와 버전을 확인합니다.
+
+```bash
+git --version
+python3 --version
+```
+
+Python이 여러 버전 설치되어 있다면 3.10 이상의 버전을 명시하여 실행합니다.
+
+```bash
+python3.12 --version
+```
+
+### Git 사용자 정보 설정
+
+커밋 작성자를 식별할 수 있도록 GitHub 계정에 연결된 정보를 설정합니다.
+
+```bash
+git config user.name "본인 이름"
+git config user.email "GitHub 등록 이메일"
+```
+
+공용 PC에서는 인증 토큰이나 비밀번호를 저장하거나 공유하지 않습니다.
+
+이번 프로젝트는 팀 소개 문서를 결과물로 선택했으므로 별도의 Python 라이브러리 설치는 필요하지 않습니다.
+
 ## 브랜치 전략 (GitHub Flow)
 
 ```
@@ -26,43 +64,80 @@ feature/<이름>-<주제>
 
 | 예시 | 설명 |
 | --- | --- |
-| `feature/haeun-string-utils` | 하은이 문자열 유틸 추가 |
-| `feature/haeun-fix-truncate` | 하은이 truncate 버그 수정 |
-| `docs/haeun-contributing` | 문서 작업 (feature 대신 docs 접두사 허용) |
+| `feature/haeun-intro` | 팀원 자기소개 추가 |
+| `feature/geewon-dev-env` | 개발 환경 문서 작성 |
+| `feature/geewon-revert` | revert 트러블슈팅 실습 |
 
-- 모두 **소문자**, 단어는 **하이픈(-)** 으로 연결
-- 이름을 넣는 이유: 누구 브랜치인지 `git branch -a` 만 봐도 보이게
+- 모두 소문자로 작성한다.
+- 단어는 하이픈(-)으로 연결한다.
+- 이름과 작업 주제를 포함하여 담당자와 작업 내용을 쉽게 파악할 수 있도록 한다.
+- 문서 작업을 포함한 모든 작업 브랜치는 `feature/` 접두사로 통일한다.
+- 작업 시작 전 Issue를 생성하거나 배정받고, 최신 `main`을 기준으로 브랜치를 생성한다.
+- 하나의 브랜치에서는 하나의 작업 단위를 진행한다.
+- 작업 완료 후 PR을 생성하고, 팀원 리뷰 및 승인을 거쳐 `main`에 병합한다.
+
+### 브랜치 생성 예시
+
+```bash
+git switch main
+git pull --ff-only origin main
+git switch -c feature/geewon-dev-env
+```
+
+브랜치 이름을 통일하는 이유는 팀원 간 작업을 쉽게 식별하고, 과제에서 요구하는 GitHub Flow 전략을 일관되게 적용하기 위해서이다.
 
 ## 커밋 메시지 컨벤션
+
+### 기본 형식
 
 ```
 <type>: <무엇을 어떻게 바꿨는지>
 ```
 
-| type | 쓰는 때 |
+| type | 사용하는 경우 |
 | --- | --- |
-| `feat` | 기능 추가 |
-| `fix` | 버그 수정 |
-| `docs` | 문서 변경 |
-| `refactor` | 동작은 그대로, 구조만 변경 |
-| `chore` | 설정·빌드 등 잡일 |
+| feat | 새로운 기능 추가 |
+| fix | 오류 및 문제 수정 |
+| docs | 문서 추가 및 수정 |
+| refactor | 기능 변경 없이 코드 구조 개선 |
+| chore | 프로젝트 설정 및 환경 관리 |
+| test | 테스트 추가 및 수정 |
+
+### 작성 규칙
+
+- type은 소문자로 작성한다.
+- type 뒤에 콜론(:)과 공백 한 칸을 넣는다.
+- 변경 대상과 변경 내용을 구체적으로 작성한다.
+- 하나의 커밋에는 하나의 논리적인 변경 단위를 담는다.
+- 팀 소개 및 협업 문서 작업에는 docs를 사용한다.
+- 리뷰 의견을 반영할 때도 수정 내용을 구체적으로 작성한다.
 
 ### ✅ 좋은 예
 
 ```
-feat: add truncate() to string utils
-fix: handle empty string in truncate()
-docs: add branch naming rules to CONTRIBUTING
+docs: add geewon team introduction
+docs: add development environment to CONTRIBUTING
+docs: improve branch naming rules
+docs: record git stash experiment
+docs: add team role based on review feedback
+fix: resolve README merge conflict
+chore: add pull request template
 ```
 
-### ❌ 금지 (과제 명세의 "의미없는 메시지" 판정 기준)
+### ❌ 금지되는 커밋 메시지
 
-| 금지 | 이유 |
+| 금지 예시 | 이유 |
 | --- | --- |
-| `update`, `fix`, `temp`, `wip`, `final` | 변경 대상을 유추할 수 없음 |
-| `bug fix`, `edit file` | 무엇을/왜 바꿨는지 안 드러남 |
+| update | 변경 대상을 알 수 없음 |
+| fix | 무엇을 수정했는지 알 수 없음 |
+| temp, wip, final | 구체적인 작업 내용이 없음 |
+| bug fix | 어떤 오류를 수정했는지 알 수 없음 |
+| edit file | 어떤 파일을 왜 수정했는지 알 수 없음 |
 
-> 판단 기준: **커밋 메시지만 보고 `git log` 에서 그 커밋을 찾을 수 있는가?**
+커밋 메시지만 확인해도 팀원이 변경 내용을 파악할 수 있도록 작성한다.
+
+의미 있는 커밋 메시지는 변경 이력을 추적하고,
+문제 발생 시 원인을 파악하는 데 도움이 된다.
 
 ## 이슈 규칙
 
