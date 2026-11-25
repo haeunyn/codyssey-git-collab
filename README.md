@@ -19,7 +19,7 @@
 
 | 이름 | GitHub | 소개 | 담당 |
 | --- | --- | --- | --- |
-| 하은 | [@haeunyn](https://github.com/haeunyn) | [소개](team/haeun.md) | 저장소 세팅 · 문서 뼈대 |
+| 하은 | [@haeunyn](https://github.com/haeunyn) | [소개](team/haeun.md) | 저장소 세팅 · 문서 뼈대 · 트러블슈팅 amend |
 
 > 쓰는 법과 양식: [`team/README.md`](team/README.md)
 >
