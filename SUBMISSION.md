@@ -25,7 +25,7 @@
 - **작성한 리뷰**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8)
 - **리뷰 반영**:
 - **트러블슈팅 참여**:
-- **결과물 기여**: `team/kyuyeong.md` (자가소개)
+- **결과물 기여**: `team/kyuyeong.md` (자기소개)
 
 ### _(팀원 3)_
 - **PR**: /
