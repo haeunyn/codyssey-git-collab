@@ -11,23 +11,21 @@
 2. 모든 변경이 **PR 한 곳**을 지나므로 리뷰와 이력이 자연스럽게 쌓인다.
 3. `main` 을 항상 "깨지지 않는 상태"로 두면 누구든 언제든 거기서 새 작업을 시작할 수 있다.
 
-## 팀원
+## 팀원 (= 결과물 목록)
 
-| 이름 | GitHub | 담당 |
-| --- | --- | --- |
-| 하은 | [@haeunyn](https://github.com/haeunyn) | 저장소 세팅 · 문서 뼈대 |
-| _(모집 중)_ | | |
-| _(모집 중)_ | | |
+과제의 "간단한 결과물"은 **(B) 팀 소개**를 택했습니다.
+각자 `team/<이름>.md` 에 자기소개 파일을 하나 추가하고, **이 표에 자기 줄을 직접 추가**합니다.
+코딩 없이 글만 쓰면 되므로 **Git 협업 과정(브랜치·PR·리뷰·충돌)** 에 집중할 수 있습니다.
 
-## 결과물: 팀원별 유틸 함수 모음
+| 이름 | GitHub | 소개 | 담당 |
+| --- | --- | --- | --- |
+| 하은 | [@haeunyn](https://github.com/haeunyn) | _(작성 예정)_ | 저장소 세팅 · 문서 뼈대 |
 
-각자 **Python 유틸 함수 1개 이상**을 `src/utils/` 에 추가합니다. 사용 예시는 docstring 에 남깁니다.
-
-| 모듈 | 함수 | 작성자 |
-| --- | --- | --- |
-| [`src/utils/text.py`](src/utils/text.py) | `truncate()` | 하은 |
-
-> 추가 방법은 [`src/README.md`](src/README.md) 참고
+> 쓰는 법과 양식: [`team/README.md`](team/README.md)
+>
+> ⚠️ **팀원 전원이 이 표의 같은 자리를 고칩니다.** 충돌이 나는 게 정상이고,
+> 과제 7번이 요구하는 **비자명 충돌**(같은 파일의 같은 hunk 를 서로 다르게 수정)이 여기서 생깁니다.
+> 해결한 사람이 [`docs/conflict-resolution.md`](docs/conflict-resolution.md) 에 기록합니다.
 
 ## 문서
 
@@ -44,9 +42,9 @@
 git clone https://github.com/haeunyn/codyssey-git-collab.git
 cd codyssey-git-collab
 
-git switch -c feature/<본인이름>-<주제>     # 예: feature/haeun-string-utils
+git switch -c feature/<본인이름>-<주제>     # 예: feature/haeun-intro
 # ... 작업 ...
-git add -A && git commit -m "feat: add string truncate util"
+git add -A && git commit -m "docs: add haeun intro to team"
 git push -u origin feature/<본인이름>-<주제>
 # GitHub 에서 PR 생성 (본문에 Closes #이슈번호 포함)
 ```
