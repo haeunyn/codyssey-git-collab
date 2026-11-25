@@ -2,14 +2,29 @@
 #
 # 여기에 적힌 경로가 바뀌는 PR 이 열리면 해당 사용자가 자동으로 리뷰어로 지정됩니다.
 # 형식: <경로 패턴>  <@GitHub아이디>
+# 저장소 Collaborator 여야 동작하며, PR 작성자 본인은 자동 제외됩니다.
 #
-# ⚠️ 팀원이 모이면 아이디를 채우세요. 저장소 Collaborator 여야 동작합니다.
+# ⚠️ 규칙은 "아래쪽에서 매칭되는 것이 우선"입니다. 그래서 폴더 기본값을 먼저 적고,
+#    더 구체적인 파일 지정을 그 아래에 둡니다.
+# ⚠️ 작성자 본인은 제외되므로, 경로마다 소유자를 두 명 이상 둡니다.
+#    한 명만 두면 그 사람이 올린 PR 에는 자동 지정되는 리뷰어가 아무도 없습니다.
 
-# 문서 전반
-/docs/          @haeunyn
+# 문서 전반 — 새로 생기는 docs/ 파일의 기본값
+/docs/                          @haeunyn @fromdance
 
-# 저장소 설정
-/.github/       @haeunyn
+# 협업 규칙 문서 — 보완을 맡은 두 사람
+/docs/CONTRIBUTING.md           @fromdance @geewon07
 
-# 팀 소개 파일 (본인 파일은 본인이 책임 리뷰어)
-# /team/haeun.md          @haeunyn
+# 트러블슈팅 기록 — 4종을 셋이 나눠 맡았으므로 전원
+/docs/troubleshooting-log.md    @haeunyn @fromdance @geewon07
+
+# 충돌 기록 — 충돌은 둘 이상이 얽히므로 전원
+/docs/conflict-resolution.md    @haeunyn @fromdance @geewon07
+
+# 저장소 설정 · 제출물 인덱스
+/.github/                       @haeunyn @fromdance
+/SUBMISSION.md                  @haeunyn @fromdance
+
+# 팀 소개와 README 목록 — 같은 표를 모두가 고치는 곳
+/README.md                      @haeunyn @geewon07
+/team/                          @haeunyn @geewon07

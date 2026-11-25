@@ -223,3 +223,81 @@ merge commit 생성과 PR 최종 병합을 진행할 예정이다.
 ### 결과 (Outcome)
 
 ### 배운 점 (Learnings)
+
+---
+
+## 충돌 기록 #2
+
+### 참여자
+
+- 작성자: 하은 ([@haeunyn](https://github.com/haeunyn)) — 해결 및 기록
+- 상대: 하은 본인의 선행 PR #8 (같은 줄을 먼저 바꿔 main 에 들어가 있었다)
+- 발생일: 2026-11-25
+
+### 상황 (What happened)
+
+- 작업 브랜치: `feature/haeun-team-table` (PR #14, 연결 Issue #13)
+- 병합 대상: `origin/main` (`394ccc8`)
+- 파일: `README.md` **22번 줄** — 팀원 표의 하은 줄
+
+두 PR 이 **같은 한 줄의 서로 다른 칸**을 고쳤다.
+
+| PR | 고친 칸 | 내용 |
+| --- | --- | --- |
+| #8 (먼저 병합됨) | **소개** | `_(작성 예정)_` → `[소개](team/haeun.md)` |
+| #14 (나중) | **담당** | `저장소 세팅 · 문서 뼈대` → `... · 트러블슈팅 amend` |
+
+Git 은 **줄 단위로 비교**한다. 사람 눈에는 "서로 다른 칸이니 겹치지 않는다"지만,
+Git 에게는 **같은 줄이 양쪽에서 다르게 바뀐 것**이라 어느 쪽을 살릴지 판단할 수 없다.
+그래서 사람에게 넘겼다. 과제 7번의 **비자명 충돌 유형 A**(같은 파일의 같은 hunk)에 해당한다.
+
+### 충돌 내용 (Conflict markers)
+
+```txt
+<<<<<<< HEAD
+| 하은 | [@haeunyn](https://github.com/haeunyn) | _(작성 예정)_ | 저장소 세팅 · 문서 뼈대 · 트러블슈팅 amend |
+=======
+| 하은 | [@haeunyn](https://github.com/haeunyn) | [소개](team/haeun.md) | 저장소 세팅 · 문서 뼈대 |
+>>>>>>> origin/main
+```
+
+- `<<<<<<< HEAD` ~ `=======` : **지금 내 브랜치**(`feature/haeun-team-table`)의 내용
+- `=======` ~ `>>>>>>> origin/main` : **가져오려는 쪽**(main)의 내용
+
+### 해결 과정 (How)
+
+**전략: keep both (둘 다 살리기).**
+서로 다른 칸을 고친 것이라 **어느 하나를 버릴 이유가 없다.**
+main 의 소개 링크와 내 브랜치의 담당 갱신을 **한 줄에 합쳤다.**
+
+```bash
+git switch feature/haeun-team-table
+git fetch origin
+git merge origin/main          # ← 여기서 충돌
+
+# README.md 22번 줄: 마커 3줄(<<<<<<<, =======, >>>>>>>)을 모두 지우고
+# 소개 링크 + 담당 갱신을 합친 한 줄로 수정
+
+git add README.md
+git commit                     # 병합 커밋 메시지는 기본값 사용
+git push
+```
+
+### 결과 (Outcome)
+
+```
+| 하은 | [@haeunyn](https://github.com/haeunyn) | [소개](team/haeun.md) | 저장소 세팅 · 문서 뼈대 · 트러블슈팅 amend |
+```
+
+- 마커 잔존 **0건** (`grep -c "<<<<<<<"` 로 확인)
+- 두 변경이 모두 살아 있다.
+
+### 주의점 / 다음에 피하는 법
+
+- **rebase 를 쓰지 않았다.** 이미 push 한 브랜치라 rebase 는 강제 푸시가 필요하고,
+  그건 팀 규칙(`CONTRIBUTING.md` 운영 안정성)과 과제 제약에 어긋난다.
+- **마커 3줄을 전부 지워야 한다.** 하나라도 남으면 그대로 커밋되어 문서가 깨진다.
+- **재발 방지** — 같은 줄을 건드리는 PR 을 동시에 열지 않는다.
+  불가피하면 **먼저 병합되는 쪽을 정해두고**, 나중 쪽이 바로 `git merge origin/main` 으로 따라잡는다.
+- 표처럼 **한 줄에 여러 정보가 들어가는 구조**는 충돌이 잦다.
+  팀원별로 **줄을 나눠** 쓰면 충돌 범위가 줄어든다.
