@@ -8,7 +8,7 @@
 | 시나리오 | 담당 | 상태 |
 | --- | --- | --- |
 | a. `git commit --amend` | 하은 ([@haeunyn](https://github.com/haeunyn)) | ✅ |
-| b. `git reset --soft HEAD~1` | 규영 ([@fromdance](https://github.com/fromdance)) | ⬜ |
+| b. `git reset --soft HEAD~1` | 규영 ([@fromdance](https://github.com/fromdance)) | ✅ |
 | c. `git revert` | 지원 ([@geewon07](https://github.com/geewon07)) | ✅ |
 | d. `git stash` / `stash pop` | 지원 ([@geewon07](https://github.com/geewon07)) | ✅ |
 
@@ -93,24 +93,99 @@ git switch - && git branch -D tmp-amend-test
 
 ## 시나리오 b — `git reset --soft HEAD~1` (로컬 커밋 취소 + 변경 유지)
 
+> ✅ **2026-11-26 실제 수행함.**
+
 ### 참여자
--
+
+- 규영 ([@fromdance](https://github.com/fromdance)) — 수행 및 기록
 
 ### 상황
-- 커밋을 너무 일찍 했다. 파일 하나를 빠뜨려서 커밋을 되돌리고 다시 묶고 싶다.
+
+- #18 작업 중 `SUBMISSION.md` 의 PR 칸을 채우고 커밋했는데, 같은 칸 묶음의 "작성한 리뷰"에 #17 링크를 넣는 것을 빠뜨렸다.
+- 같은 목적(내 SUBMISSION 칸 업데이트)의 변경을 커밋 두 개로 나누고 싶지 않아, **커밋만 취소하고 변경은 유지한 채** 다시 하나로 묶기로 했다.
+- 아직 **push 하지 않은 로컬 커밋**이었다.
+- 실습 브랜치: `feature/kyuyeong-intro` (PR #18)
+- 관련 Issue: #19
 
 ### 시도한 명령/절차
 
 ```bash
+# 1) PR 칸만 채우고 커밋 (#17 리뷰 링크는 빠뜨린 상태)
+git add SUBMISSION.md
+git commit -m "docs: add PR link to kyuyeong SUBMISSION"
 git log --oneline -2
-git reset --soft HEAD~1       # 커밋만 취소, 변경 내용은 staged 상태로 남음
-git status                    # 변경이 그대로 있는지 확인
-git add <빠뜨린 파일>
-git commit -m "feat: add truncate() with tests"
+
+# 2) 커밋만 취소, 변경은 staged 로 유지
+git reset --soft HEAD~1
+git status
+git log --oneline -2
+
+# 3) 빠뜨린 #17 리뷰 링크를 추가하고 하나의 커밋으로 다시 묶기
+git add SUBMISSION.md
+git commit -m "docs: add PR link and #17 review to kyuyeong SUBMISSION" -m "Refs #10"
+git log --oneline -2
+
+# 4) 정리된 커밋 하나만 push
+git push
 ```
 
 ### 결과
-- 커밋은 사라지고 **작업 내용은 그대로** 남는다.
+
+#### 1. 첫 커밋 직후
+
+```text
+[feature/kyuyeong-intro e84ee23] docs: add PR link to kyuyeong SUBMISSION
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
+```text
+e84ee23 (HEAD -> feature/kyuyeong-intro) docs: add PR link to kyuyeong SUBMISSION
+9933b53 (origin/feature/kyuyeong-intro) docs: record README team table conflict in conflict-resolution
+```
+
+- `origin/feature/kyuyeong-intro` 가 아직 `9933b53` 에 있다 → `e84ee23` 은 **로컬에만 있는 커밋**이다.
+
+#### 2. `git reset --soft HEAD~1` 직후
+
+```text
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   SUBMISSION.md
+```
+
+```text
+9933b53 (HEAD -> feature/kyuyeong-intro, origin/feature/kyuyeong-intro) docs: record README team table conflict in conflict-resolution
+060d696 Merge remote-tracking branch 'origin/main' into feature/kyuyeong-intro
+```
+
+- `HEAD` 가 한 칸 뒤(`9933b53`)로 이동해 `e84ee23` 이 히스토리에서 사라졌다.
+- `SUBMISSION.md` 변경은 **staged 상태 그대로** 남아 있다.
+
+#### 3. 다시 묶은 커밋
+
+```text
+[feature/kyuyeong-intro b2729ab] docs: add PR link and #17 review to kyuyeong SUBMISSION
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+```
+
+```text
+b2729ab (HEAD -> feature/kyuyeong-intro) docs: add PR link and #17 review to kyuyeong SUBMISSION
+9933b53 (origin/feature/kyuyeong-intro) docs: record README team table conflict in conflict-resolution
+```
+
+#### 4. push
+
+```text
+   9933b53..b2729ab  feature/kyuyeong-intro -> feature/kyuyeong-intro
+```
+
+| 구분 | 커밋 해시 | 변경 | 상태 |
+| --- | --- | --- | --- |
+| 취소한 커밋 | `e84ee23` | PR 칸 (1줄) | reset 으로 히스토리에서 제거, push 되지 않음 |
+| 다시 묶은 커밋 | `b2729ab` | PR 칸 + #17 리뷰 링크 (2줄) | push 되어 PR #18 에 포함 |
+
+- 첫 커밋의 변경(1줄)을 잃지 않고, 빠뜨린 변경까지 합쳐 **2줄짜리 커밋 하나**가 되었다.
+- 원격에는 정리된 커밋만 올라갔으므로 **강제 push 가 필요 없었다.**
 
 ### 왜 이 방법을 선택했는가 (Why)
 
@@ -120,11 +195,18 @@ git commit -m "feat: add truncate() with tests"
 | `--mixed` (기본) | 취소 | 취소 | 유지 | add 부터 다시 하고 싶을 때 |
 | `--hard` | 취소 | 취소 | **삭제** | 전부 버리고 싶을 때 ⚠️ |
 
-- `--soft` 를 쓴 이유: 작업한 내용을 잃지 않으면서 커밋 단위만 다시 잡고 싶었기 때문.
+- **`--soft` 를 고른 이유:** 이미 add 한 변경을 다시 add 할 필요 없이, 커밋 단위만 다시 잡으면 됐기 때문이다.
+- **`--amend` 대신 reset 을 쓴 이유:** 이번에는 `git add` 후 `git commit --amend` 로도 같은 결과를 낼 수 있다.
+  reset --soft 는 **여러 커밋을 한꺼번에 취소**하거나(`HEAD~2`), 커밋을 **취소한 뒤 내용을 다시 검토**하고 싶을 때도 쓸 수 있는 더 일반적인 방법이다.
+- **`revert` 를 쓰지 않은 이유:** revert 는 "취소 커밋"을 하나 더 쌓는다. 아무도 보지 않은 로컬 커밋을 지우는 데 기록을 남길 필요는 없다.
 
 ### ⚠️ 주의할 점
-- `--hard` 는 **작업 파일까지 지운다.** 되돌릴 수 없다 (reflog 로 커밋은 찾을 수 있지만 미커밋 변경은 못 찾는다).
-- reset 도 **push 한 뒤에는 쓰지 않는다.**
+
+- **push 전인지 먼저 확인한다.** `git log --oneline` 에서 `origin/<브랜치>` 가 취소할 커밋보다 **아래**에 있어야 한다.
+  이미 push 한 커밋을 reset 하면 원격과 히스토리가 어긋나 강제 push 가 필요해진다 (팀 규칙상 금지 → 이 경우 revert, 시나리오 c).
+- `git status` 의 `Your branch is up to date with 'origin/...'` 는 **마지막 fetch 기준**이다. 원격 상태를 정확히 보려면 `git fetch` 후 확인한다.
+- `--hard` 는 작업 파일까지 지운다. 미커밋 변경은 복구할 수 없다.
+- 취소한 커밋(`e84ee23`)은 바로 지워지지 않고 `git reflog` 에 일정 기간 남는다. 실수로 reset 했다면 `git reset --soft <해시>` 로 되돌릴 수 있다.
 
 ---
 
