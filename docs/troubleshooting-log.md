@@ -9,8 +9,8 @@
 | --- | --- | --- |
 | a. `git commit --amend` | 하은 ([@haeunyn](https://github.com/haeunyn)) | ✅ |
 | b. `git reset --soft HEAD~1` | 규영 ([@fromdance](https://github.com/fromdance)) | ⬜ |
-| c. `git revert` | 지원 ([@geewon07](https://github.com/geewon07)) | ⬜ |
-| d. `git stash` / `stash pop` | 지원 ([@geewon07](https://github.com/geewon07)) | ⬜ |
+| c. `git revert` | 지원 ([@geewon07](https://github.com/geewon07)) | ✅ |
+| d. `git stash` / `stash pop` | 지원 ([@geewon07](https://github.com/geewon07)) | ✅ |
 
 ---
 
@@ -130,63 +130,196 @@ git commit -m "feat: add truncate() with tests"
 
 ## 시나리오 c — `git revert` (원격에 push 된 커밋 취소)
 
+> ✅ **2026-11-25 실제 수행함.**
+
 ### 참여자
--
+
+- 지원 ([@geewon07](https://github.com/geewon07)) — 수행 및 기록
 
 ### 상황
-- 이미 `main` 에 병합되어 push 된 커밋에 문제가 있다. 되돌려야 한다.
+
+- 이미 원격 저장소에 push 한 커밋의 변경 내용을 취소해야 하는 상황을 재현하였다.
+- main 브랜치에 영향을 주지 않기 위해 `feature/geewon-troubleshooting` 브랜치에서 실습하였다.
+- 관련 Issue: #16
 
 ### 시도한 명령/절차
 
 ```bash
-git log --oneline -5                 # 되돌릴 커밋 해시 확인
-git revert <커밋해시>                 # "그 커밋을 취소하는 새 커밋" 생성
+# 실습용 파일 생성 및 커밋
+echo "This change should be reverted." > revert-test.txt
+git add revert-test.txt
+git commit -m "test: add temporary file for revert experiment"
+
+# 원격 저장소에 push
+git push -u origin feature/geewon-troubleshooting
+
+# 취소 대상 커밋 확인
+git log --oneline -1
+
+# 기존 커밋 취소
+git revert --no-edit 3e36f6b
+
+# 취소 결과 확인
+git log --oneline -3
+git status
+git show --stat HEAD
+ls revert-test.txt
+
+# 취소 커밋 push
 git push
+
+# 최종 확인
+git status
+git log --oneline -3
 ```
 
 ### 결과
-- 기존 커밋은 **그대로 남고**, 그것을 되돌리는 **새 커밋이 추가**된다.
-- 히스토리가 길어지지만 **아무도 깨지지 않는다**.
 
-### 왜 reset 대신 revert 를 선택했는가 (Why) ★ 평가 단골 질문
-- `reset` 은 히스토리에서 커밋을 **없앤다**. 이미 다른 사람이 그 커밋을 받아갔다면
-  내 히스토리와 남의 히스토리가 어긋나고, 맞추려면 **강제 푸시**가 필요하다.
-- `revert` 는 **아무것도 지우지 않고 되돌리는 커밋을 더한다.** 그래서 공유 브랜치에서 안전하다.
-- 한 줄 요약: **혼자만 본 히스토리는 reset, 남이 이미 본 히스토리는 revert.**
+| 구분 | 커밋 해시 | 결과 |
+| --- | --- | --- |
+| 기존 커밋 | `3e36f6b` | 실습용 파일 생성 |
+| revert 커밋 | `0cf7f88` | 실습용 파일 삭제 |
+
+실제 git log 결과:
+
+```text
+0cf7f88 Revert "test: add temporary file for revert experiment"
+3e36f6b test: add temporary file for revert experiment
+```
+
+파일 삭제 확인:
+
+```text
+ls: revert-test.txt: No such file or directory
+```
+
+최종 상태:
+
+```text
+Your branch is up to date with 'origin/feature/geewon-troubleshooting'.
+nothing to commit, working tree clean
+```
+
+- 기존 커밋이 삭제되지 않고 이력에 남아 있다.
+- 기존 변경을 취소하는 새로운 커밋이 생성되었다.
+- 강제 push 없이 원격 저장소에 반영하였다.
+
+### 왜 reset 대신 revert를 선택했는가 (Why)
+
+- reset은 브랜치가 가리키는 커밋을 이동시키므로 이미 공유된 이력을 변경할 수 있다.
+- 이미 push한 커밋을 reset으로 제거하면 원격 저장소에 반영하기 위해 강제 push가 필요할 수 있다.
+- 우리 팀은 팀 합의 없는 강제 push를 금지한다.
+- revert는 기존 커밋을 유지하면서 변경 내용을 반대로 적용하는 새로운 커밋을 생성한다.
+- 이미 원격 저장소에 push한 커밋이므로 협업 이력을 보호하기 위해 revert를 선택하였다.
+- 한 줄 요약: **공유하지 않은 커밋은 reset, 이미 공유한 커밋의 변경 취소는 revert.**
 
 ### ⚠️ 주의할 점
-- 머지 커밋을 revert 할 때는 `-m 1` 처럼 어느 쪽을 "원래 줄기"로 볼지 지정해야 한다.
+
+- 취소하려는 커밋의 해시를 정확하게 확인해야 한다.
+- 이후 변경사항과 겹치면 revert 과정에서도 충돌이 발생할 수 있다.
+- merge commit을 revert할 때는 `-m` 옵션으로 기준 부모를 지정해야 한다.
+- main 브랜치의 변경 취소 역시 팀 규칙에 따라 PR을 통해 진행해야 한다.
+- 실제 실습에서는 공용 PC를 사용하므로 개인 GitHub 인증 정보가 credential helper에 저장되지 않도록 `git -c credential.helper= push`를 사용하였다. 일반적인 환경에서는 `git push`를 사용하면 된다.
 
 ---
 
 ## 시나리오 d — `git stash` / `git stash pop` (작업 보관 후 전환)
 
+> ✅ **2026-11-25 실제 수행함.**
+
 ### 참여자
--
+
+- 지원 ([@geewon07](https://github.com/geewon07)) — 수행 및 기록
 
 ### 상황
-- 작업하던 중에 급한 리뷰 요청이 왔다. 지금 변경은 커밋하기엔 덜 됐고, 버리기는 아깝다.
+
+- 트러블슈팅 문서를 작성하던 중 다른 브랜치로 급하게 이동해야 하는 상황을 재현하였다.
+- 아직 완료되지 않은 작업을 커밋하지 않고 임시 저장한 뒤 복원하고자 하였다.
+- 작업 브랜치: `feature/geewon-troubleshooting`
+- 관련 Issue: #16
 
 ### 시도한 명령/절차
 
 ```bash
-git stash                     # 현재 변경을 치워두고 깨끗한 상태로
+# 커밋하지 않은 변경사항 생성
+printf '\n<!-- stash experiment: work in progress -->\n' >> docs/troubleshooting-log.md
+
+# 변경사항 확인
+git status --short
+git --no-pager diff docs/troubleshooting-log.md
+
+# 작업 임시 저장
+git stash push -m "geewon: troubleshooting work in progress"
+
+# 임시 저장 상태 확인
+git stash list
+git status
+
+# main 브랜치로 이동
 git switch main
-git switch -c feature/review-fix
-# ... 급한 일 처리 ...
-git switch feature/원래브랜치
-git stash list                # 보관된 목록 확인
-git stash pop                 # 가장 최근 것 꺼내고 목록에서 제거
+git status
+
+# 기존 작업 브랜치로 복귀
+git switch feature/geewon-troubleshooting
+git stash list
+
+# 임시 저장한 작업 복원
+git stash pop 'stash@{0}'
+
+# 복원 결과 확인
+git status --short
+git --no-pager diff docs/troubleshooting-log.md
+git stash list
 ```
 
 ### 결과
-- 작업 중이던 변경이 그대로 돌아온다.
+
+#### 1. stash 실행 후
+
+```text
+stash@{0}: On feature/geewon-troubleshooting: geewon: troubleshooting work in progress
+nothing to commit, working tree clean
+```
+
+- 변경사항이 stash에 임시 저장되었다.
+- 작업 디렉터리가 깨끗해졌다.
+
+#### 2. 브랜치 전환
+
+- main 브랜치로 정상적으로 이동하였다.
+- 기존 작업 브랜치로 정상적으로 복귀하였다.
+- stash 목록에 보관한 작업이 유지되어 있었다.
+
+#### 3. stash pop 실행 후
+
+```text
+Dropped stash@{0}
+```
+
+```text
+ M docs/troubleshooting-log.md
+```
+
+복원된 변경 내용:
+
+```html
+<!-- stash experiment: work in progress -->
+```
+
+- 커밋하지 않았던 변경사항이 정상적으로 복원되었다.
+- 복원에 성공한 stash 항목은 목록에서 제거되었다.
+- 실습용 주석은 최종 기록 문서를 작성하면서 제거하였다.
 
 ### 왜 이 방법을 선택했는가 (Why)
-- 덜 된 작업을 커밋하면 `wip` 같은 **의미없는 커밋**이 생긴다 (팀 컨벤션 위반).
-- stash 는 커밋 히스토리를 더럽히지 않고 잠시 치워둘 수 있다.
+
+- 완료되지 않은 작업을 임시로 커밋할 필요가 없다.
+- 변경사항을 잃지 않고 다른 브랜치로 이동할 수 있다.
+- 불필요한 커밋을 생성하지 않고 기존 작업을 이어갈 수 있다.
 
 ### ⚠️ 주의할 점
-- `pop` 은 꺼내면서 **목록에서 지운다.** 남겨두려면 `git stash apply`.
-- stash 는 **브랜치에 묶이지 않는다.** 다른 브랜치에서 pop 하면 거기에 적용되므로 주의.
-- 충돌이 나면 pop 이 중단되고 stash 가 남아 있다. 충돌 해결 후 `git stash drop`.
+
+- 기본 stash는 추적되지 않는 파일을 포함하지 않는다. 필요한 경우 `git stash -u`를 사용한다.
+- stash는 특정 브랜치에만 묶여 있지 않으므로 복원할 브랜치를 확인해야 한다.
+- `git stash pop`은 복원에 성공하면 해당 stash 항목을 제거한다.
+- 보관 내용을 유지하면서 복원하려면 `git stash apply`를 사용한다.
+- 복원 과정에서 충돌이 발생하면 내용을 확인하고 해결한 후 stash를 제거해야 한다.
