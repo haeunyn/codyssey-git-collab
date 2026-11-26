@@ -20,12 +20,13 @@
 - **트러블슈팅 참여**: (시나리오명)
 - **결과물 기여**: `team/haeun.md` (자기소개)
 
-### _(팀원 2)_
-- **PR**: /
-- **작성한 리뷰**: /
-- **리뷰 반영**:
-- **트러블슈팅 참여**:
-- **결과물 기여**:
+### 규영 ([@fromdance](https://github.com/fromdance))
+- **PR**: [#18](https://github.com/haeunyn/codyssey-git-collab/pull/18) / [#20](https://github.com/haeunyn/codyssey-git-collab/pull/20)
+- **작성한 리뷰**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8) / [#17](https://github.com/haeunyn/codyssey-git-collab/pull/17)
+- **리뷰 반영**: [#18 SUBMISSION 누락 항목 보완](https://github.com/haeunyn/codyssey-git-collab/pull/18#discussion_r4704204318)
+- **트러블슈팅 참여**: `git reset --soft HEAD~1` (시나리오 b, [#20](https://github.com/haeunyn/codyssey-git-collab/pull/20))
+- **결과물 기여**: `team/kyuyeong.md` (자기소개)
+- **충돌 해결**: 기록 #3 — README 팀원 표 비자명 충돌 ([conflict-resolution.md](docs/conflict-resolution.md#충돌-기록-3))
 
 ### _(팀원 3)_
 - **PR**: /

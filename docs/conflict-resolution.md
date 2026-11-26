@@ -278,9 +278,99 @@ git push
 
 ---
 
+## 충돌 기록 #3
+
+### 참여자
+
+- 작성자: 규영 ([@fromdance](https://github.com/fromdance)) — 해결 및 기록
+- 상대: 하은 ([@haeunyn](https://github.com/haeunyn)) PR #8, 지원 ([@geewon07](https://github.com/geewon07)) PR #15 (둘 다 먼저 main 에 병합됨)
+- 발생일: 2026-11-26
+
+### 상황 (What happened)
+
+- 작업 브랜치: `feature/kyuyeong-intro` (연결 Issue #10)
+- 병합 대상: `origin/main` (`8c0e2ca`)
+- 파일: `README.md` 팀원 표 — 하은 줄 바로 아래
+
+내 브랜치는 #8 · #15 가 병합되기 **전의 main** 에서 갈라져 나왔다. 그 사이 main 에서는 같은 자리가 두 번 바뀌었다.
+
+| 쪽 | 바뀐 내용 |
+| --- | --- |
+| main (#8) | 하은 줄의 소개 칸 `_(작성 예정)_` → `[소개](team/haeun.md)`, 담당에 `트러블슈팅 amend` 추가 |
+| main (#15) | 하은 줄 바로 아래에 **지원 줄 추가** |
+| 내 브랜치 | 하은 줄 바로 아래에 **규영 줄 추가** |
+
+하은 줄은 양쪽에서 내용이 다르고, 그 바로 아래 같은 위치에 서로 다른 줄이 추가되었다.
+인접 라인이라 Git 이 하나의 hunk 로 묶었고, 어느 쪽을 살릴지 판단할 수 없어 사람에게 넘겼다.
+
+### 충돌 유형
+
+- [ ] 자명
+- [x] **비자명 A** — 같은 파일의 같은 hunk 를 서로 다르게 수정
+- [ ] 비자명 B
+
+### 충돌 내용 (Conflict markers)
+
+```txt
+<<<<<<< HEAD
+| 하은 | [@haeunyn](https://github.com/haeunyn) | _(작성 예정)_ | 저장소 세팅 · 문서 뼈대 |
+| 규영 | [@fromdance](https://github.com/fromdance) | [소개](team/kyuyeong.md) | 리뷰 규칙 보완 · 트러블슈팅(`git reset`) |
+=======
+| 하은 | [@haeunyn](https://github.com/haeunyn) | [소개](team/haeun.md) | 저장소 세팅 · 문서 뼈대 · 트러블슈팅 amend |
+| 지원 | [@geewon07](https://github.com/geewon07) | [소개](team/geewon.md) | 개발 환경 · 협업 규칙 · 트러블슈팅 revert/stash |
+>>>>>>> origin/main
+```
+
+- `HEAD` 쪽: 내 브랜치 — **예전 하은 줄** + 내가 추가한 규영 줄
+- `origin/main` 쪽: **최신 하은 줄** + 지원 줄
+
+### 해결 과정 (How)
+
+**전략: 줄마다 다르게 판단했다.**
+
+| 줄 | 전략 | 이유 |
+| --- | --- | --- |
+| 하은 | **choose one** (main 쪽) | 내 브랜치의 하은 줄은 내가 고친 게 아니라 갈라질 당시의 옛 내용이다. main 쪽이 최신 |
+| 지원 · 규영 | **keep both** | 서로 다른 사람의 줄을 각각 추가한 것이라 버릴 이유가 없다. 병합된 순서대로 지원 → 규영 |
+
+```bash
+git switch feature/kyuyeong-intro
+git fetch origin
+git merge origin/main          # ← 여기서 README.md 충돌
+
+# 마커 3줄을 모두 지우고 하은(main) → 지원 → 규영 순으로 정리
+# 규영 줄 담당 칸은 다른 줄 표기에 맞춰 "트러블슈팅 reset --soft" 로 통일
+
+git add README.md
+git commit                     # 제목은 기본값, 본문에 충돌 원인·전략 기록
+git push
+```
+
+> merge 중 `git status` 에 CODEOWNERS · troubleshooting-log 등 main 의 변경이 staged 로 보였다.
+> 이는 main 에서 가져온 내용이 merge 커밋에 함께 담기는 것이라 **정상**이다.
+> 내리면(`git restore --staged`) 팀원 작업을 지우는 셈이 되므로 그대로 커밋했다.
+
+### 결과 (Outcome)
+
+```
+| 하은 | [@haeunyn](https://github.com/haeunyn) | [소개](team/haeun.md) | 저장소 세팅 · 문서 뼈대 · 트러블슈팅 amend |
+| 지원 | [@geewon07](https://github.com/geewon07) | [소개](team/geewon.md) | 개발 환경 · 협업 규칙 · 트러블슈팅 revert/stash |
+| 규영 | [@fromdance](https://github.com/fromdance) | [소개](team/kyuyeong.md) | 리뷰 규칙 보완 · 트러블슈팅 reset --soft |
+```
+
+- merge 커밋: `060d696`
+- 마커 잔존 **0건**
+- `git diff --stat origin/main...HEAD` 로 PR 에는 내 변경(README 1줄 · SUBMISSION · team/kyuyeong.md)만 남은 것을 확인
+
+### 주의점 · 재발 방지
+
+- 충돌 블록 안에는 **내가 고치지 않은 옛 내용**(하은 줄)도 섞여 나온다. 무조건 keep both 하면 옛 내용이 되살아나므로 줄마다 어느 쪽이 최신인지 확인해야 한다.
+- 이미 push 한 브랜치라 rebase 대신 merge 로 따라잡았다 (강제 푸시 금지).
+- 새 브랜치를 main 에서 다시 따면 충돌 없이 끝나지만, 이번에는 실습 기록을 위해 **기존 브랜치에서 merge** 했다.
+
 ## 기록 템플릿 — 새 기록을 쓸 때 복사해서 쓰세요
 
-> 번호는 **다음 번호**로 바꿉니다. (지금까지 #1, #2 작성됨 → 다음은 **#3**)
+> 번호는 **다음 번호**로 바꿉니다. (지금까지 #1 ~ #3 작성됨 → 다음은 **#4**)
 
 ````markdown
 ## 충돌 기록 #N

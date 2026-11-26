@@ -21,6 +21,7 @@
 | --- | --- | --- | --- |
 | 하은 | [@haeunyn](https://github.com/haeunyn) | [소개](team/haeun.md) | 저장소 세팅 · 문서 뼈대 · 트러블슈팅 amend |
 | 지원 | [@geewon07](https://github.com/geewon07) | [소개](team/geewon.md) | 개발 환경 · 협업 규칙 · 트러블슈팅 revert/stash |
+| 규영 | [@fromdance](https://github.com/fromdance) | [소개](team/kyuyeong.md) | 리뷰 규칙 보완 · 트러블슈팅 reset --soft |
 
 > 쓰는 법과 양식: [`team/README.md`](team/README.md)
 >
