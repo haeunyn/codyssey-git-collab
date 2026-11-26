@@ -151,7 +151,7 @@ git add revert-test.txt
 git commit -m "test: add temporary file for revert experiment"
 
 # 원격 저장소에 push
-git -c credential.helper= push -u origin feature/geewon-troubleshooting
+git push -u origin feature/geewon-troubleshooting
 
 # 취소 대상 커밋 확인
 git log --oneline -1
@@ -166,7 +166,7 @@ git show --stat HEAD
 ls revert-test.txt
 
 # 취소 커밋 push
-git -c credential.helper= push
+git push
 
 # 최종 확인
 git status
@@ -207,8 +207,11 @@ nothing to commit, working tree clean
 ### 왜 reset 대신 revert를 선택했는가 (Why)
 
 - reset은 브랜치가 가리키는 커밋을 이동시키므로 이미 공유된 이력을 변경할 수 있다.
+- 이미 push한 커밋을 reset으로 제거하면 원격 저장소에 반영하기 위해 강제 push가 필요할 수 있다.
+- 우리 팀은 팀 합의 없는 강제 push를 금지한다.
 - revert는 기존 커밋을 유지하면서 변경 내용을 반대로 적용하는 새로운 커밋을 생성한다.
 - 이미 원격 저장소에 push한 커밋이므로 협업 이력을 보호하기 위해 revert를 선택하였다.
+- 한 줄 요약: **공유하지 않은 커밋은 reset, 이미 공유한 커밋의 변경 취소는 revert.**
 
 ### ⚠️ 주의할 점
 
@@ -216,6 +219,7 @@ nothing to commit, working tree clean
 - 이후 변경사항과 겹치면 revert 과정에서도 충돌이 발생할 수 있다.
 - merge commit을 revert할 때는 `-m` 옵션으로 기준 부모를 지정해야 한다.
 - main 브랜치의 변경 취소 역시 팀 규칙에 따라 PR을 통해 진행해야 한다.
+- 실제 실습에서는 공용 PC를 사용하므로 개인 GitHub 인증 정보가 credential helper에 저장되지 않도록 `git -c credential.helper= push`를 사용하였다. 일반적인 환경에서는 `git push`를 사용하면 된다.
 
 ---
 
