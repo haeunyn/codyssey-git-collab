@@ -21,8 +21,8 @@
 - **결과물 기여**: `team/haeun.md` (자기소개)
 
 ### 규영 ([@fromdance](https://github.com/fromdance))
-- **PR**: /
-- **작성한 리뷰**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8)
+- **PR**: [#18](https://github.com/haeunyn/codyssey-git-collab/pull/18)
+- **작성한 리뷰**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8) / [#17](https://github.com/haeunyn/codyssey-git-collab/pull/17)
 - **리뷰 반영**:
 - **트러블슈팅 참여**:
 - **결과물 기여**: `team/kyuyeong.md` (자기소개)
