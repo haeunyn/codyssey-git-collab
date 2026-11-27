@@ -7,7 +7,20 @@
 
 - **팀명**: _(미정)_
 - **저장소**: https://github.com/haeunyn/codyssey-git-collab
-- **기간**: 2026-11-25 ~ 2026-11-26 (팀 결성 ~ 전 요건 충족)
+- **기간**: 2026-11-25 ~ 2026-11-27 (팀 결성 ~ 산출물 완성)
+
+## 한눈에 보기
+
+| 항목 | 요구 | 결과 |
+| --- | --- | --- |
+| 팀 구성 | 3~5인 | **3인** |
+| 병합된 PR | 1인당 2개 | **12건** (하은 6 · 지원 3 · 규영 3) |
+| 작성한 리뷰 | 1인당 2개 | **12건** (하은 5 · 지원 3 · 규영 4) |
+| 리뷰 반영 | 1인당 1회 | **전원 충족** |
+| 충돌 해결 기록 | 2회 (1회 비자명) | **3회 — 전부 비자명 유형 A** |
+| 트러블슈팅 | 4종 | **4종 전부** |
+| 협업 문서 | 3종 | **3종 전부** |
+| 보너스 | — | **2 (CODEOWNERS)** 적용 |
 
 ## 팀원별 기여
 
@@ -15,7 +28,7 @@
 
 ### 하은 ([@haeunyn](https://github.com/haeunyn))
 - **PR**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#5](https://github.com/haeunyn/codyssey-git-collab/pull/5) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8) / [#9](https://github.com/haeunyn/codyssey-git-collab/pull/9) / [#14](https://github.com/haeunyn/codyssey-git-collab/pull/14)
-- **작성한 리뷰**: [#11](https://github.com/haeunyn/codyssey-git-collab/pull/11) / [#15](https://github.com/haeunyn/codyssey-git-collab/pull/15) / [#18](https://github.com/haeunyn/codyssey-git-collab/pull/18) / [#20](https://github.com/haeunyn/codyssey-git-collab/pull/20)
+- **작성한 리뷰**: [#11](https://github.com/haeunyn/codyssey-git-collab/pull/11) / [#15](https://github.com/haeunyn/codyssey-git-collab/pull/15) / [#18](https://github.com/haeunyn/codyssey-git-collab/pull/18) / [#20](https://github.com/haeunyn/codyssey-git-collab/pull/20) / [#24](https://github.com/haeunyn/codyssey-git-collab/pull/24)
 - **리뷰 반영**: [#2 README 표 합치기](https://github.com/haeunyn/codyssey-git-collab/pull/2#discussion_r4690896133) · [#8 CODEOWNERS 소유자 2명 이상](https://github.com/haeunyn/codyssey-git-collab/pull/8#discussion_r4692098310) · [#9 revert 설명 정정](https://github.com/haeunyn/codyssey-git-collab/pull/9#discussion_r4692169696) · [#14 중복 템플릿 정리](https://github.com/haeunyn/codyssey-git-collab/pull/14#discussion_r4692869345)
 - **트러블슈팅 참여**: `git commit --amend` (시나리오 a, [#9](https://github.com/haeunyn/codyssey-git-collab/pull/9))
 - **결과물 기여**: `team/haeun.md` (자기소개)
@@ -51,20 +64,34 @@
 git log --oneline --graph --all
 ```
 
-> **스냅샷 시점: PR #22 병합 직전 (2026-11-26).**
+> **스냅샷 시점: 2026-11-27, 모든 PR 병합 완료 후 (최종).**
 > 아래 그래프는 **`main` 만** 따라간 결과입니다(`git log --oneline --graph --decorate origin/main`).
 > 과제 명세의 `--all` 은 병합되지 않은 브랜치까지 모두 그려서, 이미 병합된 `feature/*` 들이
 > 중복으로 보이고 줄이 길어집니다. **"어떤 PR 이 main 에 어떤 순서로 들어왔는가"** 를
 > 보여주는 것이 목적이라 `main` 기준으로 찍었습니다. 두 명령의 결과는
 > **모든 브랜치가 병합된 지금 사실상 같습니다.**
 >
-> 이 PR(#22)과 이후 PR 은 그래프에 없습니다. **마지막 PR 이 병합된 뒤 한 번 더 갱신합니다.**
+> 이 PR(#25)만 그래프에 없습니다. 병합되면 `Merge pull request #25` 가 맨 위에 하나 더 붙습니다.
 
 **`main` 히스토리 전체입니다.** 모든 변경이 `Merge pull request #N` 을 지나며,
 `main` 에 직접 올라간 커밋은 최초 세팅(`chore: 팀 협업 저장소 초기 세팅`) 하나뿐입니다.
 
 ```text
-*   fba16a1 (HEAD -> feature/haeun-submission, origin/main, origin/HEAD, main) Merge pull request #20 from haeunyn/feature/kyuyeong-troubleshoot-reset
+*   00c741f (HEAD -> feature/haeun-final-index, origin/main, origin/HEAD, main) Merge pull request #24 from haeunyn/feature/kyuyeong-review-rules
+|\  
+| * eb4df4d (origin/feature/kyuyeong-review-rules) docs: add #24 and #22 review to kyuyeong SUBMISSION
+| * cd9b3af docs: allow author to resolve threads when reviewer is unavailable
+| * fc7b334 docs: fill document owners for dev env and branch/commit rules
+| * 15eea86 docs: add review status, feedback flow and checklist to CONTRIBUTING
+| * 22f7144 docs: replace review comment examples with team intro cases
+* |   a62aa7d Merge pull request #22 from haeunyn/feature/haeun-submission
+|\ \  
+| |/  
+|/|   
+| * 2c9b4da (origin/feature/haeun-submission, feature/haeun-submission) docs: fix wrong review-reflection link and clarify log scope
+| * 9dda30c docs: finalize SUBMISSION index with all contribution links
+|/  
+*   fba16a1 Merge pull request #20 from haeunyn/feature/kyuyeong-troubleshoot-reset
 |\  
 | * c180838 (origin/feature/kyuyeong-troubleshoot-reset) docs: record git reset --soft troubleshooting (scenario b)
 * |   17e52e5 Merge pull request #18 from haeunyn/feature/kyuyeong-intro
@@ -149,8 +176,8 @@ git log --oneline --graph --all
 > **숫자 갱신 담당** — PR 이 추가될 때마다 각자 고치면 이 파일에서 충돌이 납니다.
 > **본인 칸은 본인이**, 아래 합계 숫자는 **마지막에 하은이 한 번에** 갱신합니다.
 
-- [x] 팀원 전원 PR 2개 이상 병합됨 — 하은 5 · 지원 3 · 규영 2 (총 10건)
-- [x] 팀원 전원 리뷰 2개 이상 작성 (본인 PR 제외) — 하은 4 · 지원 3 · 규영 3
+- [x] 팀원 전원 PR 2개 이상 병합됨 — 하은 6 · 지원 3 · 규영 3 (**총 12건**)
+- [x] 팀원 전원 리뷰 2개 이상 작성 (본인 PR 제외) — 하은 5 · 지원 3 · 규영 4
 - [x] 팀원 전원 리뷰 반영 1회 이상 — 세 명 모두 스레드 링크로 증빙
 - [x] 충돌 해결 **2회 이상** 기록 (**1회는 비자명 충돌**) — **3회**, 모두 비자명 유형 A
 - [x] 트러블슈팅 **4종 모두** 기록 — amend(하은) · reset --soft(규영) · revert·stash(지원)
