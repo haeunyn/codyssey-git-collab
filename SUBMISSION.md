@@ -27,7 +27,7 @@
 각 팀원 최소 기준: **PR 2개 · 리뷰 2개(본인 PR 제외) · 리뷰 반영 1회 · 트러블슈팅 1종 참여 · 결과물 커밋 1건**
 
 ### 하은 ([@haeunyn](https://github.com/haeunyn))
-- **PR**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#5](https://github.com/haeunyn/codyssey-git-collab/pull/5) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8) / [#9](https://github.com/haeunyn/codyssey-git-collab/pull/9) / [#14](https://github.com/haeunyn/codyssey-git-collab/pull/14)
+- **PR**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#5](https://github.com/haeunyn/codyssey-git-collab/pull/5) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8) / [#9](https://github.com/haeunyn/codyssey-git-collab/pull/9) / [#14](https://github.com/haeunyn/codyssey-git-collab/pull/14) / [#22](https://github.com/haeunyn/codyssey-git-collab/pull/22)
 - **작성한 리뷰**: [#11](https://github.com/haeunyn/codyssey-git-collab/pull/11) / [#15](https://github.com/haeunyn/codyssey-git-collab/pull/15) / [#18](https://github.com/haeunyn/codyssey-git-collab/pull/18) / [#20](https://github.com/haeunyn/codyssey-git-collab/pull/20) / [#24](https://github.com/haeunyn/codyssey-git-collab/pull/24)
 - **리뷰 반영**: [#2 README 표 합치기](https://github.com/haeunyn/codyssey-git-collab/pull/2#discussion_r4690896133) · [#8 CODEOWNERS 소유자 2명 이상](https://github.com/haeunyn/codyssey-git-collab/pull/8#discussion_r4692098310) · [#9 revert 설명 정정](https://github.com/haeunyn/codyssey-git-collab/pull/9#discussion_r4692169696) · [#14 중복 템플릿 정리](https://github.com/haeunyn/codyssey-git-collab/pull/14#discussion_r4692869345)
 - **트러블슈팅 참여**: `git commit --amend` (시나리오 a, [#9](https://github.com/haeunyn/codyssey-git-collab/pull/9))
