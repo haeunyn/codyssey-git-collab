@@ -23,9 +23,9 @@
 - **저장소 세팅**: 폴더 구조 · Branch Protection · PR/Issue 템플릿 · CODEOWNERS(보너스 2) · 협업 문서 3종 뼈대
 
 ### 규영 ([@fromdance](https://github.com/fromdance))
-- **PR**: [#18](https://github.com/haeunyn/codyssey-git-collab/pull/18) / [#20](https://github.com/haeunyn/codyssey-git-collab/pull/20)
-- **작성한 리뷰**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8) / [#17](https://github.com/haeunyn/codyssey-git-collab/pull/17)
-- **리뷰 반영**: [#18 SUBMISSION 누락 항목 보완](https://github.com/haeunyn/codyssey-git-collab/pull/18#discussion_r4704204318)
+- **PR**: [#18](https://github.com/haeunyn/codyssey-git-collab/pull/18) / [#20](https://github.com/haeunyn/codyssey-git-collab/pull/20) / [#24](https://github.com/haeunyn/codyssey-git-collab/pull/24)
+- **작성한 리뷰**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8) / [#17](https://github.com/haeunyn/codyssey-git-collab/pull/17) / [#22](https://github.com/haeunyn/codyssey-git-collab/pull/22)
+- **리뷰 반영**: [#18 SUBMISSION 누락 항목 보완](https://github.com/haeunyn/codyssey-git-collab/pull/18#discussion_r4704204318) / [#24 문서 분담 · Resolve 예외](https://github.com/haeunyn/codyssey-git-collab/pull/24#pullrequestreview-6082186010)
 - **트러블슈팅 참여**: `git reset --soft HEAD~1` (시나리오 b, [#20](https://github.com/haeunyn/codyssey-git-collab/pull/20))
 - **결과물 기여**: `team/kyuyeong.md` (자기소개)
 - **충돌 해결**: 기록 #3 — README 팀원 표 비자명 충돌 ([conflict-resolution.md](docs/conflict-resolution.md#충돌-기록-3))
