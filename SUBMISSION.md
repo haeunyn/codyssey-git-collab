@@ -16,7 +16,7 @@
 ### 하은 ([@haeunyn](https://github.com/haeunyn))
 - **PR**: [#2](https://github.com/haeunyn/codyssey-git-collab/pull/2) / [#5](https://github.com/haeunyn/codyssey-git-collab/pull/5) / [#8](https://github.com/haeunyn/codyssey-git-collab/pull/8) / [#9](https://github.com/haeunyn/codyssey-git-collab/pull/9) / [#14](https://github.com/haeunyn/codyssey-git-collab/pull/14)
 - **작성한 리뷰**: [#11](https://github.com/haeunyn/codyssey-git-collab/pull/11) / [#15](https://github.com/haeunyn/codyssey-git-collab/pull/15) / [#18](https://github.com/haeunyn/codyssey-git-collab/pull/18) / [#20](https://github.com/haeunyn/codyssey-git-collab/pull/20)
-- **리뷰 반영**: [#2 README 표 합치기](https://github.com/haeunyn/codyssey-git-collab/pull/2#discussion_r4690896133) · [#8 CODEOWNERS 소유자 2명 이상](https://github.com/haeunyn/codyssey-git-collab/pull/8#discussion_r4692098310) · [#9 revert 설명 정정](https://github.com/haeunyn/codyssey-git-collab/pull/9#discussion_r4692169696)
+- **리뷰 반영**: [#2 README 표 합치기](https://github.com/haeunyn/codyssey-git-collab/pull/2#discussion_r4690896133) · [#8 CODEOWNERS 소유자 2명 이상](https://github.com/haeunyn/codyssey-git-collab/pull/8#discussion_r4692098310) · [#9 revert 설명 정정](https://github.com/haeunyn/codyssey-git-collab/pull/9#discussion_r4692169696) · [#14 중복 템플릿 정리](https://github.com/haeunyn/codyssey-git-collab/pull/14#discussion_r4692869345)
 - **트러블슈팅 참여**: `git commit --amend` (시나리오 a, [#9](https://github.com/haeunyn/codyssey-git-collab/pull/9))
 - **결과물 기여**: `team/haeun.md` (자기소개)
 - **충돌 해결**: 기록 #2 — README 같은 줄의 다른 칸 충돌 ([conflict-resolution.md](docs/conflict-resolution.md#충돌-기록-2))
@@ -33,7 +33,7 @@
 ### 지원 ([@geewon07](https://github.com/geewon07))
 - **PR**: [#11](https://github.com/haeunyn/codyssey-git-collab/pull/11) / [#15](https://github.com/haeunyn/codyssey-git-collab/pull/15) / [#17](https://github.com/haeunyn/codyssey-git-collab/pull/17)
 - **작성한 리뷰**: [#5](https://github.com/haeunyn/codyssey-git-collab/pull/5) / [#9](https://github.com/haeunyn/codyssey-git-collab/pull/9) / [#14](https://github.com/haeunyn/codyssey-git-collab/pull/14)
-- **리뷰 반영**: [#11 Windows 버전 확인 명령 추가](https://github.com/haeunyn/codyssey-git-collab/pull/11#discussion_r4692170046) · [#14 중복 템플릿 정리](https://github.com/haeunyn/codyssey-git-collab/pull/11#discussion_r4692252502)
+- **리뷰 반영**: [#11 Windows 버전 확인 명령 추가](https://github.com/haeunyn/codyssey-git-collab/pull/11#discussion_r4692170046) — 리뷰 받고 커밋 `77eb6c5` 로 반영
 - **트러블슈팅 참여**: `git revert` (시나리오 c) · `git stash` / `stash pop` (시나리오 d) — [#17](https://github.com/haeunyn/codyssey-git-collab/pull/17)
 - **결과물 기여**: `team/geewon.md` (자기소개)
 - **충돌 해결**: 기록 #1 — CONTRIBUTING 브랜치·커밋 예시 충돌 ([conflict-resolution.md](docs/conflict-resolution.md#충돌-기록-1))
@@ -48,10 +48,19 @@
 ## Git 히스토리 증빙
 
 ```bash
-git log --oneline --graph --decorate origin/main
+git log --oneline --graph --all
 ```
 
-**2026-11-26 기준 `main` 히스토리 전체입니다.** 모든 변경이 `Merge pull request #N` 을 지나며,
+> **스냅샷 시점: PR #22 병합 직전 (2026-11-26).**
+> 아래 그래프는 **`main` 만** 따라간 결과입니다(`git log --oneline --graph --decorate origin/main`).
+> 과제 명세의 `--all` 은 병합되지 않은 브랜치까지 모두 그려서, 이미 병합된 `feature/*` 들이
+> 중복으로 보이고 줄이 길어집니다. **"어떤 PR 이 main 에 어떤 순서로 들어왔는가"** 를
+> 보여주는 것이 목적이라 `main` 기준으로 찍었습니다. 두 명령의 결과는
+> **모든 브랜치가 병합된 지금 사실상 같습니다.**
+>
+> 이 PR(#22)과 이후 PR 은 그래프에 없습니다. **마지막 PR 이 병합된 뒤 한 번 더 갱신합니다.**
+
+**`main` 히스토리 전체입니다.** 모든 변경이 `Merge pull request #N` 을 지나며,
 `main` 에 직접 올라간 커밋은 최초 세팅(`chore: 팀 협업 저장소 초기 세팅`) 하나뿐입니다.
 
 ```text
@@ -137,6 +146,9 @@ git log --oneline --graph --decorate origin/main
 
 ## 체크리스트 (제출 전 확인)
 
+> **숫자 갱신 담당** — PR 이 추가될 때마다 각자 고치면 이 파일에서 충돌이 납니다.
+> **본인 칸은 본인이**, 아래 합계 숫자는 **마지막에 하은이 한 번에** 갱신합니다.
+
 - [x] 팀원 전원 PR 2개 이상 병합됨 — 하은 5 · 지원 3 · 규영 2 (총 10건)
 - [x] 팀원 전원 리뷰 2개 이상 작성 (본인 PR 제외) — 하은 4 · 지원 3 · 규영 3
 - [x] 팀원 전원 리뷰 반영 1회 이상 — 세 명 모두 스레드 링크로 증빙
@@ -149,4 +161,6 @@ git log --oneline --graph --decorate origin/main
 ### 보너스
 
 - [x] **보너스 2 — CODEOWNERS** 로 파일/폴더별 책임 리뷰어 자동 지정 ([.github/CODEOWNERS](.github/CODEOWNERS))
-- [ ] 보너스 1 — `git rebase -i` 히스토리 정리 — **하지 않음.** 이미 push 한 브랜치를 rebase 하면 강제 푸시가 필요한데, 팀 규칙(강제 푸시 금지)과 과제 제약에 어긋난다고 판단했습니다.
+- [ ] 보너스 1 — `git rebase -i` 히스토리 정리 — **하지 않음.**
+  우리 팀은 **작업마다 바로 push 해서 PR 로 공유**했기 때문에, 정리 대상이 될 커밋이 전부 **이미 push 된 상태**였습니다. 이를 rebase 하면 해시가 바뀌어 **강제 푸시**가 필요한데, 팀 규칙(`CONTRIBUTING.md` 운영 안정성)과 과제 제약(팀 합의 없이 강제 푸시·리베이스 금지)에 어긋납니다.
+  *(push 전 로컬 커밋이라면 rebase 로 정리해도 강제 푸시가 필요 없습니다 — 시나리오 b 의 `reset --soft` 와 같은 원리입니다. 다만 우리 작업 방식에서는 그런 커밋이 남지 않았습니다.)*
